@@ -1,0 +1,21 @@
+---
+- name: remove the apache web service
+  hosts: all
+  become: true
+  
+  tasks:
+
+  - name: stop apache service
+    service:
+      name: httpd
+      state: stopped
+
+  - name: remove website index.html
+    file:
+      path: /var/www/html/index.html
+      state: absent
+
+  - name: remove apache
+    yum:
+      name: httpd
+      state: absent
