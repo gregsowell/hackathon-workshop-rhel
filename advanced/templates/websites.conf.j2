@@ -1,0 +1,6 @@
+{% for info in web_sites %}
+Listen {{ info.port }}
+<VirtualHost *:{{ info.port }}>
+    DocumentRoot "{{ info.path }}"
+</VirtualHost>
+{% endfor %}

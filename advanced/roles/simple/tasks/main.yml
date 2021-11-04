@@ -1,0 +1,38 @@
+---
+# tasks file for simple
+- name: Install Webserver
+  yum:
+    name: httpd
+    state: present
+  notify: restart web service
+
+- name: Create site directory structure
+  file:
+    path: "{{ item.path }}"
+    state: directory
+  loop: "{{ web_sites }}"
+
+- name: Add firewall rules
+  firewalld:
+    port: "{{ item.port }}/tcp"
+    permanent: yes
+    state: enabled
+  loop: "{{ web_sites }}"
+  notify: restart firewall
+
+- name: Add webserver additional configs for new sites
+  template:
+    src: 'websites.conf.j2'
+    dest: '/etc/httpd/conf.d/websites.conf'
+  notify: restart web service
+          
+- name: Template simple web site to webserver as index.html
+  template:
+    src: 'index.html.j2'
+    dest: '{{ item.path }}/index.html'
+  loop: "{{ web_sites }}"
+
+- name: Show website addresses
+  debug:
+    msg: "http://{{ inventory_hostname }}.rhws.io:{{ item.port }}"
+  loop: "{{ web_sites }}"

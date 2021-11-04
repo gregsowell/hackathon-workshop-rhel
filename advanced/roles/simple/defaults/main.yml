@@ -1,0 +1,8 @@
+---
+web_sites:
+  - name: 'Ansible Playbook Test'
+    port: '8080'
+    path: '/var/www/html/playbooktest'
+  - name: 'Ansible Playbook Test 2'
+    port: '8081'
+    path: '/var/www/html/playbooktest2'

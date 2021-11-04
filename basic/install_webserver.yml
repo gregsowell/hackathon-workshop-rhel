@@ -1,0 +1,24 @@
+---
+- name: install the apache web service
+  hosts: all
+  become: true
+  
+  tasks:
+  - name: install apache
+    yum:
+      name: httpd
+      state: present
+
+  - name: start apache service
+    service:
+      name: httpd
+      state: started
+
+  - name: Create website index.html
+    copy:
+      content: "{{ webserver_test_message }}"
+      dest: /var/www/html/index.html
+
+  - name: Show website address
+    debug:
+      msg: "http://{{ inventory_hostname }}.rhws.io"
