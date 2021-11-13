@@ -42,7 +42,7 @@
   - name: Template simple web site to webserver as index.html
     template:
       src: 'index.html.j2'
-      dest: '{{ item.path }}\index.html'
+      dest: '{{ item.path }}/index.html'
     loop: "{{ web_sites }}"
 
   - name: Show website addresses
